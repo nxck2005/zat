@@ -1,10 +1,10 @@
 const std = @import("std");
 
 // 4KB buffer
-const W_BUF: i32 = 4096;
-const R_BUF: i32 = 4096;
+const W_BUF: usize = 4096;
+const R_BUF: usize = 4096;
 
-pub fn main() !void {
+pub fn zat() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const allocator = gpa.allocator();
@@ -33,11 +33,11 @@ pub fn main() !void {
     const reader = &fr.interface;
 
     while (true) {
-        const line = reader.takeDelimiterInclusive('\n') catch |err| {
-            if (err == error.EndOfStream) break;
+        const rb = reader.readSliceShort(&read_buf) catch |err| {
             return err;
         };
-        try stdout.writeAll(line);
+        if (rb == 0) break;
+        try stdout.writeAll(read_buf[0..rb]);
     }
 
     try stdout.flush();
