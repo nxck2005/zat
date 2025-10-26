@@ -3,6 +3,7 @@ const std = @import("std");
 // 4KB buffer
 const W_BUF: usize = 4096;
 const R_BUF: usize = 4096;
+const C_BUF: usize = 4096;
 
 pub fn zat() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
@@ -32,8 +33,10 @@ pub fn zat() !void {
     var fr = file.reader(&read_buf);
     const reader = &fr.interface;
 
+    var cbuf: [C_BUF]u8 = undefined;
+
     while (true) {
-        const rb = reader.readSliceShort(&read_buf) catch |err| {
+        const rb = reader.readSliceShort(&cbuf) catch |err| {
             return err;
         };
         if (rb == 0) break;
