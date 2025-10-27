@@ -5,7 +5,7 @@ const W_BUF: usize = 4096;
 const R_BUF: usize = 4096;
 
 pub fn zat() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    var gpa = std.heap.DebugAllocator(.{}){};
     defer _ = gpa.deinit();
     const allocator = gpa.allocator();
 
