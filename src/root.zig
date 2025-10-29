@@ -54,7 +54,7 @@ pub fn zat() !void {
 
         try stdout.flush();
     } else {
-        std.debug.print("Usage: {s} <filename>", .{args[0]});
+        std.debug.print("Usage: {s} <filename>\n", .{args[0]});
         return;
     }
 }
